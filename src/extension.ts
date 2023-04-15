@@ -1,10 +1,21 @@
-import * as vscode from 'vscode';
-import { SpecRunnerConfig } from './SpecRunnerConfig';
-import SpecResultInterpreter from './rspec/SpecResultInterpreter';
-import SpecResultPresenter from './SpecResultPresenter';
-import { MinitestRunner, MinitestRunnerCodeLensProvider, MinitestRunnerButton, MinitestResultInterpreter } from './minitest';
-import { SpecRunner, SpecRunnerCodeLensProvider, FailedSpecRunnerButton, SpecRunnerButton, SpecDebuggerButton } from './rspec';
-import { RunRspecOrMinitestArg } from './types';
+import * as vscode from "vscode";
+import { SpecRunnerConfig } from "./SpecRunnerConfig";
+import SpecResultInterpreter from "./rspec/SpecResultInterpreter";
+import SpecResultPresenter from "./SpecResultPresenter";
+import {
+  MinitestRunner,
+  MinitestRunnerCodeLensProvider,
+  MinitestRunnerButton,
+  MinitestResultInterpreter,
+} from "./minitest";
+import {
+  SpecRunner,
+  SpecRunnerCodeLensProvider,
+  FailedSpecRunnerButton,
+  SpecRunnerButton,
+  SpecDebuggerButton,
+} from "./rspec";
+import { RunRspecOrMinitestArg } from "./types";
 
 // This method is called when the extension is activated
 export function activate(context: vscode.ExtensionContext) {
@@ -13,18 +24,38 @@ export function activate(context: vscode.ExtensionContext) {
   const config = new SpecRunnerConfig();
 
   const resultPresenter = new SpecResultPresenter(context, config);
-  const resultInterpreter = new SpecResultInterpreter(config, context, resultPresenter);
-  const minitestInterpreter = new MinitestResultInterpreter(config, context, resultPresenter);
-  const specRunner = new SpecRunner(config, resultInterpreter.outputFilePath, resultPresenter);
-  const minitestRunner = new MinitestRunner(config, minitestInterpreter.outputFilePath, resultPresenter);
+  const resultInterpreter = new SpecResultInterpreter(
+    config,
+    context,
+    resultPresenter
+  );
+  const minitestInterpreter = new MinitestResultInterpreter(
+    config,
+    context,
+    resultPresenter
+  );
+  const specRunner = new SpecRunner(
+    config,
+    resultInterpreter.outputFilePath,
+    resultPresenter
+  );
+  const minitestRunner = new MinitestRunner(
+    config,
+    minitestInterpreter.outputFilePath,
+    resultPresenter
+  );
 
   const runRspecOrMinitestFile = vscode.commands.registerCommand(
-    'ruby-spec-runner.runRspecOrMinitestFile',
+    "ruby-spec-runner.runRspecOrMinitestFile",
     async (...args) => {
       const filePath = vscode.window.activeTextEditor?.document.fileName;
       if (!filePath) {
-        console.error('SpecRunner: Unable to run spec / minitest file as no editor is open.');
-        vscode.window.showErrorMessage('SpecRunner: Unable to run spec / minitest file. It appears that no editor is open.');
+        console.error(
+          "SpecRunner: Unable to run spec / minitest file as no editor is open."
+        );
+        vscode.window.showErrorMessage(
+          "SpecRunner: Unable to run spec / minitest file. It appears that no editor is open."
+        );
         return;
       }
 
@@ -37,14 +68,18 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   const runRspecOrMinitestLine = vscode.commands.registerCommand(
-    'ruby-spec-runner.runRspecOrMinitestLine',
+    "ruby-spec-runner.runRspecOrMinitestLine",
     async () => {
       const filePath = vscode.window.activeTextEditor?.document.fileName;
       const line = vscode.window.activeTextEditor?.selection.active.line;
       // eslint-disable-next-line eqeqeq
       if (!filePath || line == null) {
-        console.error('SpecRunner: Unable to run spec / minitest file as no editor is open.');
-        vscode.window.showErrorMessage('SpecRunner: Unable to run spec / minitest file. It appears that no editor is open.');
+        console.error(
+          "SpecRunner: Unable to run spec / minitest file as no editor is open."
+        );
+        vscode.window.showErrorMessage(
+          "SpecRunner: Unable to run spec / minitest file. It appears that no editor is open."
+        );
         return;
       }
 
@@ -61,11 +96,11 @@ export function activate(context: vscode.ExtensionContext) {
     }
   );
   const runFailedExample = vscode.commands.registerCommand(
-    'ruby-spec-runner.runFailedExamples',
+    "ruby-spec-runner.runFailedExamples",
     async () => specRunner.runFailedExample()
   );
   const clearResults = vscode.commands.registerCommand(
-    'ruby-spec-runner.clearResults',
+    "ruby-spec-runner.clearResults",
     async () => resultPresenter.clearTestResults()
   );
 
@@ -73,18 +108,38 @@ export function activate(context: vscode.ExtensionContext) {
   const minitestCodeLensProvider = new MinitestRunnerCodeLensProvider(config);
 
   const specDocSelectors: vscode.DocumentFilter[] = [
-    { language: 'ruby', pattern: '**/*_spec.rb' },
+    { language: "ruby", pattern: "**/*_spec.rb" },
   ];
-  const specCodeLensProviderDisposable = vscode.languages.registerCodeLensProvider(specDocSelectors, specCodeLensProvider);
+  const specCodeLensProviderDisposable =
+    vscode.languages.registerCodeLensProvider(
+      specDocSelectors,
+      specCodeLensProvider
+    );
   const minitestDocSelectors: vscode.DocumentFilter[] = [
-    { language: 'ruby', pattern: '**/*_test.rb' },
+    { language: "ruby", pattern: "**/*_test.rb" },
   ];
-  const minitestCodeLensProviderDisposable = vscode.languages.registerCodeLensProvider(minitestDocSelectors, minitestCodeLensProvider);
+  const minitestCodeLensProviderDisposable =
+    vscode.languages.registerCodeLensProvider(
+      minitestDocSelectors,
+      minitestCodeLensProvider
+    );
 
-  const failedSpecRunnerButton = new FailedSpecRunnerButton(vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 1), config);
-  const specRunnerButton = new SpecRunnerButton(vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 2), config);
-  const specDebuggerButton = new SpecDebuggerButton(vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 2), config);
-  const minitestRunnerButton = new MinitestRunnerButton(vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 2), config);
+  const failedSpecRunnerButton = new FailedSpecRunnerButton(
+    vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 1),
+    config
+  );
+  const specRunnerButton = new SpecRunnerButton(
+    vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 2),
+    config
+  );
+  const specDebuggerButton = new SpecDebuggerButton(
+    vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 2),
+    config
+  );
+  const minitestRunnerButton = new MinitestRunnerButton(
+    vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 2),
+    config
+  );
 
   context.subscriptions.push(runRspecOrMinitestFile);
   context.subscriptions.push(runRspecOrMinitestLine);
@@ -96,17 +151,20 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(specDebuggerButton.button);
   context.subscriptions.push(failedSpecRunnerButton.button);
   context.subscriptions.push(minitestRunnerButton.button);
-  context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor((editor) => {
-    failedSpecRunnerButton.update(editor);
-    specRunnerButton.update(editor);
-    specDebuggerButton.update(editor);
-    minitestRunnerButton.update(editor);
-    resultPresenter.update();
-  }));
-  context.subscriptions.push(vscode.window.onDidChangeTextEditorSelection((editor) => {
-    resultPresenter.update();
-  }));
-
+  context.subscriptions.push(
+    vscode.window.onDidChangeActiveTextEditor((editor) => {
+      failedSpecRunnerButton.update(editor);
+      specRunnerButton.update(editor);
+      specDebuggerButton.update(editor);
+      minitestRunnerButton.update(editor);
+      resultPresenter.update();
+    })
+  );
+  context.subscriptions.push(
+    vscode.window.onDidChangeTextEditorSelection((editor) => {
+      resultPresenter.update();
+    })
+  );
 
   failedSpecRunnerButton.update();
   specRunnerButton.update();

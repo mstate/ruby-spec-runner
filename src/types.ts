@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
 export enum RspecExampleStatus {
-  Passed = 'passed',
-  Failed = 'failed',
-  Pending = 'pending',
-};
+  Passed = "passed",
+  Failed = "failed",
+  Pending = "pending",
+}
 
 export interface RspecException {
   class: string;
@@ -17,6 +17,7 @@ export type RunRspecOrMinitestArg = {
   fileName: string;
   name?: string;
   fromCodeLens?: boolean;
+  debug?: boolean;
 };
 
 type RspecExample = {
@@ -68,11 +69,12 @@ export interface TestResultLineResult {
 }
 
 export interface TestResults {
-  [key: string]: { // File path
+  [key: string]: {
+    // File path
     testRun: string;
     testRunPending: boolean;
     results: {
       [key: string]: TestResultLineResult; // Line number
-    }
-  }
+    };
+  };
 }

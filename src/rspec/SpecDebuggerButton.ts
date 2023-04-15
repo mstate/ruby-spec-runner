@@ -23,7 +23,11 @@ export class SpecDebuggerButton {
     }
 
     this.button.text = "$(testing-debug-icon) Debug spec";
-    this.button.command = "ruby-spec-runner.runRspecOrMinitestFile";
+    this.button.command = {
+      command: "ruby-spec-runner.runRspecOrMinitestFile",
+      arguments: [{ debug: true }],
+      title: "Debug spec",
+    };
     this.button.show();
   }
 }
