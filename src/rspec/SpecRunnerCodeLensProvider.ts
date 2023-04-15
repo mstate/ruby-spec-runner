@@ -35,6 +35,15 @@ export class SpecRunnerCodeLensProvider implements CodeLensProvider {
           arguments: [args],
           command: 'ruby-spec-runner.runRspecOrMinitestFile',
           tooltip: 'Run this example/context'
+        },
+      ));
+      codeLens.push(new CodeLens(
+        specRegion.range,
+        {
+          title: '$(testing-debug-icon) Debug',
+          arguments: [args],
+          command: 'ruby-spec-runner.debugRspecOrMinitestFile',
+          tooltip: 'Debug this test'
         }
       ));
     });
