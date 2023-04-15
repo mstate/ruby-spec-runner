@@ -12,6 +12,10 @@ export class SpecRunnerConfig {
     const command = vscode.workspace.getConfiguration().get('ruby-spec-runner.rspecCommand') as string | undefined;
     return command?.trim() || 'bundle exec rspec';
   }
+  get rspecDebugCommand(): string | undefined {
+    const command = vscode.workspace.getConfiguration().get('ruby-spec-runner.rspecDebugCommand') as string | undefined;
+    return command?.trim() || 'bundle exec rdbg -O -- rspec';
+  }
 
   get minitestCommand(): string | undefined {
     const command = vscode.workspace.getConfiguration().get('ruby-spec-runner.minitestCommand') as string | undefined;
