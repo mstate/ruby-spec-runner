@@ -73,6 +73,10 @@ export class SpecRunnerConfig {
   get rspecRunButton(): boolean {
     return this.getBooleanConfig('ruby-spec-runner.rspecRunButton', true);
   }
+  
+  get rspecDebugButton(): boolean {
+    return this.getBooleanConfig('ruby-spec-runner.rspecDebugnButton', true);
+  }
 
   get rspecRunAllFailedButton(): boolean {
     return this.getBooleanConfig('ruby-spec-runner.rspecRunAllFailedButton', false);

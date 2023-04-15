@@ -1,5 +1,5 @@
-import * as vscode from 'vscode';
-import SpecRunnerConfig from '../SpecRunnerConfig';
+import * as vscode from "vscode";
+import SpecRunnerConfig from "../SpecRunnerConfig";
 
 export class SpecDebuggerButton {
   button: vscode.StatusBarItem;
@@ -11,19 +11,19 @@ export class SpecDebuggerButton {
   }
 
   update(editor = vscode.window.activeTextEditor) {
-    if (!editor || !this.config.rspecRunButton) {
+    if (!editor || !this.config.rspecDebugButton) {
       this.button.hide();
       return;
     }
 
     const doc = editor.document;
-    if (doc.languageId !== 'ruby' || !doc.fileName.match(/_spec\.rb$/)) {
+    if (doc.languageId !== "ruby" || !doc.fileName.match(/_spec\.rb$/)) {
       this.button.hide();
       return;
     }
 
-    this.button.text = '$(testing-debug-icon) Debug spec';
-    this.button.command = 'ruby-spec-runner.runRspecOrMinitestFile';
+    this.button.text = "$(testing-debug-icon) Debug spec";
+    this.button.command = "ruby-spec-runner.runRspecOrMinitestFile";
     this.button.show();
   }
 }

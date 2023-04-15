@@ -70,7 +70,8 @@
 				"ruby-spec-runner.rspecDebugCommand": {
 					"type": "string",
 					"default": "",
-					"markdownDescription": "Rspec: Provide an alternative command or use a different debugger than rdbg for debugging rspec. For example you may need to use a different path.\n\nCan also be used to pass paramters to configure how your debugger runs`.",
+					"markdownDescription": "Rspec: Provide an alternative command or use a different debugger than rdbg for debugging rspec. For example you may need to use a different path.\n\nCan also be used to pass paramters to configure how your debugger runs.",
+					"scope": "window"
 				},
 				"ruby-spec-runner.minitestCommand": {
 					"type": "string",
